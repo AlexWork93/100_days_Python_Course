@@ -10,9 +10,6 @@ screen = Screen()
 screen.setup(1000, 1000)
 screen.bgcolor("black")
 screen.tracer(0)
-print("================================")
-print(screen.getcanvas().winfo_screen())
-print("================================")
 
 snake = snake_file.Snake()
 
@@ -41,7 +38,7 @@ while playing:
         current_score += 1
         score_board.update_score(current_score)
 
-    time.sleep(0.1)
+    time.sleep(0.05)
     snake.move()
     if snake.collision:
         print("Game over")

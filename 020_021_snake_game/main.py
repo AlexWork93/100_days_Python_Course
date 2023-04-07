@@ -42,6 +42,7 @@ while playing:
     snake.move()
     if snake.collision:
         print("Game over")
+        score_board.save_highest_score()
         playing = False
 
     # food = Food()

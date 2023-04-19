@@ -3,10 +3,16 @@ import pandas
 nato_df = pandas.read_csv("nato_phonetic_alphabet.csv")
 
 dict_nato = {row.letter: row.code for (index, row) in nato_df.iterrows()}
-
-user_input = input("what should I convert to NATO alphabet?: ")
-
-user_input_in_nato = [dict_nato[n] for n in user_input.upper() if not n == ' ']
+keep_ask = True
+user_input_in_nato = []
+while keep_ask:
+    user_input = input("what should I convert to NATO alphabet?: ")
+    try:
+        user_input_in_nato = [dict_nato[n] for n in user_input.upper() if not n == ' ']
+    except KeyError:
+        print("Only letters are allowed!")
+    else:
+        keep_ask = False
 
 print(user_input_in_nato)
 

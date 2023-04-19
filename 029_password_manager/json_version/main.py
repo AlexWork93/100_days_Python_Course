@@ -1,8 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
-import pandas
+import json
 import random
-import pyperclip
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
@@ -25,8 +24,6 @@ def generate_password():
     password = ''.join(password)
     entry_password.delete(0, END)
     entry_password.insert(END, password)
-    # pyperclip.copy(password)
-    # clipboard.copy(password)
     print("Generate")
     print(password)
 
@@ -52,26 +49,39 @@ def save_password():
 
     is_ok = messagebox.askokcancel(title="Confirm data",
                                    message=f"Is this data correct?\nWebsite: {website}\nEmail: {email}\nPassword: {password}")
+
+    new_entry = {website: {"email": email, "password": password}}
+    saved_passwords = {}
     if is_ok:
         try:
-            my_dict = pandas.read_csv('data.csv')
-        except:
-            my_dict = pandas.DataFrame({'resource': [], 'email': [], 'password': []})
-            print("An exception occurred")
-        resources = my_dict['resource'].to_list()
-        resources.append(website)
-        emails = my_dict['email'].to_list()
-        emails.append(email)
-        passwords = my_dict['password'].to_list()
-        passwords.append(password)
-        new_dict = {"resource": resources,
-                    "email": emails,
-                    "password": passwords}
-
-        print(type(resources))
-        pandas.DataFrame(new_dict).to_csv("data.csv")
-        print("Save")
+            with open("data.json", "r") as data_json:
+                saved_passwords = json.load(data_json)
+        except FileNotFoundError:
+            saved_passwords = new_entry
+        except json.decoder.JSONDecodeError:
+            saved_passwords = new_entry
+        else:
+            saved_passwords.update(new_entry)
+        finally:
+            with open("data.json", "w") as data_json:
+                json.dump(saved_passwords, data_json)
         clear_entries()
+
+
+def search_entry():
+    try:
+        with open("data.json", "r") as data_json:
+            saved_passwords = json.load(data_json)
+    except FileNotFoundError:
+        messagebox.showwarning(title="warning", message="You have no passwords saved")
+    website = entry_website.get()
+    if website == "":
+        messagebox.showwarning(title="warning", message="Please enter a website")
+        return
+    if website not in saved_passwords:
+        messagebox.showwarning(title="warning", message="You don't have data for this website")
+    else:
+        messagebox.showwarning(title=website, message=f"Website: {website}\nEmail: {saved_passwords[website]['email']}\nPassword: {saved_passwords[website]['password']}")
 
 
 def clear_entries():
@@ -108,6 +118,8 @@ entry_password.grid(column=1, row=4)
 
 button_generate_password = Button(text='Generate Password', command=generate_password)
 button_generate_password.grid(column=2, row=4)
+button_search_password = Button(text='Search', command=search_entry)
+button_search_password.grid(column=3, row=2)
 button_save_password = Button(text='Add', width=41, command=save_password)
 button_save_password.grid(column=1, row=5, columnspan=2)
 

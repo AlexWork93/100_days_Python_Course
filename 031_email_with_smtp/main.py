@@ -72,10 +72,10 @@ def send_email(bd_message, port=2525):
 
 
 update_birthdays_csv_with_test_data()
-# update_birthdays_csv_with_test_data()
+update_birthdays_csv_with_test_data()
 birthday_data_for_today = get_birthdays_data_for_today()
 print(birthday_data_for_today)
 list_of_emails_for_today = [construct_email(birthday_data) for birthday_data in birthday_data_for_today]
 
-# for message in list_of_emails_for_today:
-#     send_email(message)
+for message in list_of_emails_for_today:
+    send_email(message)

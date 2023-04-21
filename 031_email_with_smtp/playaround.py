@@ -1,31 +1,37 @@
-import imaplib
+import smtplib
 import email.message
-import time
-
-my_email_01 = 'python100days_test_01@ukr.net'
-my_pass_01 = 'ALUeKg3kAm4vcrFb'
-my_email_02 = 'pythot100days_test_02@ukr.net'
-my_pass_02 = 'wN7RCY01iOFcyPlc'
+import datetime as dt
+import random
+import test_emails
 
 message_01 = email.message.Message()
 message_01['Subject'] = 'My first IMAP email'
-message_01['From'] = my_email_01
-message_01['To'] = my_email_02
+message_01['From'] = test_emails.my_email_01
+message_01['To'] = test_emails.my_email_02
 message_01.set_payload('TestEmail')
 
+
+date_to_verify = dt.datetime(day=21, month=4, year=2023)
+current_date = dt.datetime.now()
+
 message_02 = email.message.Message()
-message_02['Subject'] = 'My first IMAP email'
-message_02['From'] = my_email_02
-message_02['To'] = my_email_01
-message_02.set_payload('TestEmail')
 
+with open('quotes.txt') as quotes:
+    list_of_quotes = quotes.readlines()
+    quote_with_author = random.choice(list_of_quotes)
+    quote = quote_with_author.split('- ')[0]
+    author = quote_with_author.split('- ')[1]
+    message_02['Subject'] = f"Quote from {author}"
+    message_02['From'] = test_emails.my_email_02
+    message_02['To'] = test_emails.my_email_01
+    message_02.set_payload(f"{quote}\n{author}")
 
-with imaplib.IMAP4_SSL('imap.ukr.net') as connection:
-    connection.login(my_email_01, my_pass_01)
-    connection.append('INBOX', '', imaplib.Time2Internaldate(time.time()), str(message_01).encode('utf-8'))
-    connection.logout()
+print(message_02)
+print(dt.datetime.now())
+print()
+print()
 
-with imaplib.IMAP4_SSL('imap.ukr.net') as connection:
-    connection.login(my_email_02, my_pass_02)
-    connection.append('INBOX', '', imaplib.Time2Internaldate(time.time()), str(message_02).encode('utf-8'))
-    connection.logout()
+with smtplib.SMTP_SSL(test_emails.smtp_urk_net, 2525) as connection:
+    connection.login(test_emails.my_email_02, test_emails.smtp_pass_02)
+    connection.send_message(message_02)
+    connection.quit()

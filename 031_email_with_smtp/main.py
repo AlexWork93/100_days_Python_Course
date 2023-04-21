@@ -59,12 +59,10 @@ def get_birthdays_data_for_today():
     list_of_birthdays_today = birthdays_dataframe[birthdays_dataframe['month'] == current_month]
     list_of_birthdays_today = list_of_birthdays_today[list_of_birthdays_today['day'] == current_day]
     dict_of_birthdays_today = pandas.DataFrame(list_of_birthdays_today).to_dict(orient='records')
-    print(dict_of_birthdays_today)
     return [{'name': n['name'], 'email': n['email']} for n in dict_of_birthdays_today if 'name' in n or "email" in n]
 
 
 def send_email(bd_message, port=2525):
-    print(bd_message)
     with smtplib.SMTP_SSL(test_emails.smtp_urk_net, port) as connection:
         connection.login(test_emails.my_email_02, test_emails.smtp_pass_02)
         connection.send_message(bd_message)
@@ -74,7 +72,6 @@ def send_email(bd_message, port=2525):
 update_birthdays_csv_with_test_data()
 update_birthdays_csv_with_test_data()
 birthday_data_for_today = get_birthdays_data_for_today()
-print(birthday_data_for_today)
 list_of_emails_for_today = [construct_email(birthday_data) for birthday_data in birthday_data_for_today]
 
 for message in list_of_emails_for_today:

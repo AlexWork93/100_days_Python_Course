@@ -15,8 +15,8 @@ print(response.json()['main']['temp'])
 # and set the environment variables. See http://twil.io/secure
 # account_sid = os.environ['TWILIO_ACCOUNT_SID']
 # auth_token = os.environ['TWILIO_AUTH_TOKEN']
-account_sid = 'ACafd479012c454cf991f85945282dda14'
-auth_token = '6ea39c3d6028a3e76e11ac0e156a3273'
+account_sid = test_emails.twilio_account_sid
+auth_token = test_emails.twilio_auth_token
 client = Client(account_sid, auth_token)
 
 message = client.messages \

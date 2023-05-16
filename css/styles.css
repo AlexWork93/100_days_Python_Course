@@ -110,7 +110,7 @@ hr {
 .skill-row {
   /* display: inline-block; */
   margin: 100px auto 100px auto;
-  text-align: left;
+  text-align: center;
   width: 50%;
 }
 
@@ -122,6 +122,26 @@ hr {
 .skill-row-right-img {
   width: 20%;
   float: right;
+}
+
+.skill{
+  display: inline;
+  background: #4F4557;
+  background-image: -webkit-linear-gradient(top, #4F4557, #6D5D6E);
+  background-image: -moz-linear-gradient(top, #4F4557, #6D5D6E);
+  background-image: -ms-linear-gradient(top, #4F4557, #6D5D6E);
+  background-image: -o-linear-gradient(top, #4F4557, #6D5D6E);
+  background-image: linear-gradient(to bottom, #4F4557, #6D5D6E);
+  -webkit-border-radius: 8;
+  -moz-border-radius: 8;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 10px 10px 10px 10px;
+  text-decoration: none;
+  margin: 5px;
+  display: inline-block;
+  line-height: 1;
 }
 
 .btn {

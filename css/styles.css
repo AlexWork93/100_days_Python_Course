@@ -59,12 +59,18 @@ hr {
 
 .middle-container {
   background-color: #FCFAF1;
-  margin: 100px auto 30px;
+  padding: 30px 100px 20px 100px;
+  width: 100%;
+  display: inline-block;
 }
 
 .bottom-container {
   background-color: #393646;
-  padding: 30px 0 20px 0;
+  padding: 30px 100px 20px 100px;
+  width: 100%;
+  display: inline-block;
+
+
 }
 .top-cloud {
   position: absolute;
